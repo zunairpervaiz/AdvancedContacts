@@ -1,16 +1,5 @@
-# advanced_contacts
+# Advanced Contacts
 
-A new Flutter project.
+Provides better features for users. Searching contacts, instant SMS, SMS scheduling, instant text to WhatsApp and expandable UI for each contact are some of the features of this application.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Please consider to star my repository. Its Free
