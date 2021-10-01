@@ -21,3 +21,5 @@ const conversation = "Conversation";
 const noConversation = "No conversation found!";
 const missedCall = "Missed Call";
 const incomingCall = "Incoming Call";
+const callLogs = "Call Logs";
+const accounts = "Accounts";

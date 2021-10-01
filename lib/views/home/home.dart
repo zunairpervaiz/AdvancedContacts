@@ -23,12 +23,18 @@ class Home extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Obx(() => Visibility(visible: controller.showHeader.value == true ? true : false, child: header())),
+              Obx(() => AnimatedContainer(
+                  height: controller.containerHeight.value,
+                  duration: const Duration(milliseconds: 300),
+                  child: AnimatedContainer(
+                      height: controller.containerHeight.value,
+                      duration: const Duration(milliseconds: 300),
+                      child: Visibility(visible: controller.showHeader.value == true ? true : false, child: header())))),
               Obx(() => Visibility(visible: controller.showHeader.value == true ? true : false, child: headerDetails())),
               4.w.heightBox,
               allContacts.text.white.fontFamily("poppins").semiBold.size(20.sp).make(),
               1.w.heightBox,
-              searchBar(controller: controller.searchController, context: context),
+              searchBar(controller: controller.searchController, context: context, homeController: controller),
               1.w.heightBox,
               Flexible(
                 child: GetBuilder<HomeController>(builder: (controller) {
@@ -44,7 +50,7 @@ class Home extends StatelessWidget {
                       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                       physics: const BouncingScrollPhysics(),
                       useStickyGroupSeparators: true,
-                      elements: controller.contacts,
+                      elements: controller.searchController.text.isNotEmpty ? controller.searching : controller.contacts,
                       shrinkWrap: true,
                       groupBy: (element) {
                         return element.displayName.toString().substring(0, 1);

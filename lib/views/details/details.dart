@@ -75,9 +75,13 @@ class Details extends StatelessWidget {
                     ],
                   ),
                   4.w.heightBox,
+                  if (controller!.contacts[index].accounts.length > 1) accountsSection(controller, index),
+                  2.w.heightBox,
                   conversation.text.white.fontFamily("poppins").size(18.sp).make(),
                   2.w.heightBox,
                   noConversation.text.white.fontFamily("poppins").size(15.sp).makeCentered(),
+                  2.w.heightBox,
+                  callLogs.text.white.fontFamily("poppins").size(18.sp).make(),
                   2.w.heightBox,
                   Row(
                     children: [

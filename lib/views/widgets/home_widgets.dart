@@ -1,5 +1,7 @@
+import 'package:advanced_contacts/views/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:advanced_contacts/consts/all_importer.dart';
+import 'package:get/get.dart';
 
 Widget header() {
   return Stack(
@@ -62,13 +64,27 @@ Widget contactHeaderDetails({name, number, email}) {
   );
 }
 
-Widget searchBar({controller, context}) {
+Widget searchBar({controller, context, HomeController? homeController}) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 4.w),
     alignment: Alignment.center,
     width: MediaQuery.of(context).size.width,
     child: TextField(
-      onChanged: (value) {},
+      onChanged: (value) {
+        homeController!.searching.value = homeController.contacts;
+        var con = homeController.searching.where((element) {
+          final nameLower = element.displayName.toString().toLowerCase();
+          final number = element.phones[0].number.toString().toLowerCase();
+          if (value.length > 1) {
+            return nameLower.contains(value) || number.contains(value);
+          } else {
+            return nameLower.startsWith(value);
+          }
+        }).toList();
+        value = value;
+        homeController.searching.value = con;
+        homeController.update();
+      },
       cursorColor: Colors.white,
       style: const TextStyle(color: Colors.white, fontFamily: "poppins"),
       controller: controller,
@@ -107,5 +123,64 @@ Widget buildContactButton({icon}) {
             width: 10.w,
           )),
     ),
+  );
+}
+
+Widget accountsSection(controller, index) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      accounts.text.white.fontFamily("poppins").size(18.sp).make(),
+      2.w.heightBox,
+      Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.green[900],
+            radius: 6.w,
+            child: IconButton(
+                onPressed: () {
+                  controller.showWhatsAppText.value = !controller.showWhatsAppText.value;
+                },
+                icon: Image.asset(iconWhatspp)),
+          ),
+          6.w.widthBox,
+          Flexible(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // "${controller.contacts[index].phones[0].number}".text.white.size(15.sp).fontFamily("poppins").make(),
+                Obx(
+                  () => Visibility(
+                    visible: controller.showWhatsAppText.value == true ? true : false,
+                    child: TextField(
+                      controller: controller.whatsAppTextController,
+                      cursorColor: Colors.white,
+                      style: const TextStyle(color: Colors.white, fontFamily: "poppins"),
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.send,
+                              color: Colors.white,
+                            )),
+                        isDense: true,
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.w), borderSide: const BorderSide(color: Colors.white, width: 1)),
+                        enabledBorder:
+                            OutlineInputBorder(borderRadius: BorderRadius.circular(2.w), borderSide: const BorderSide(color: Colors.white, width: 1)),
+                        hintText: "Type message...",
+                        hintStyle: const TextStyle(
+                          color: appContactText,
+                          fontFamily: "poppins",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ],
   );
 }
